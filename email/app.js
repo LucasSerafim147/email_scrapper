@@ -1,7 +1,7 @@
-require('dotenv').config();
+require('dotenv').config({ path: './.env' }); // Ajuste o caminho se necessário
 const nodemailer = require('nodemailer');
 
-// Log para verificar variáveis de ambiente
+
 console.log('Variáveis de ambiente:', {
   host: process.env.EMAIL_HOST,
   port: process.env.EMAIL_PORT,
@@ -9,18 +9,15 @@ console.log('Variáveis de ambiente:', {
   pass: process.env.EMAIL_PASS,
 });
 
-// Criação do transportador de e-mail
+// Criação do transportador de e-mail com base nas variáveis de ambiente
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com', // Valor padrão
-  port: parseInt(process.env.EMAIL_PORT) || 465, // Converte para número
-  secure: (parseInt(process.env.EMAIL_PORT) || 465) === 465, // true para 465
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: false, // true para 465, false para outras portas
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  family: 4, // Força IPv4 para evitar ::1
-  debug: true, // Habilita logs detalhados
-  logger: true, // Exibe logs no console
 });
 
 // Função para enviar o e-mail
@@ -28,10 +25,10 @@ async function sendEmail() {
   try {
     const info = await transporter.sendMail({
       from: `"Nome do Remetente" <${process.env.EMAIL_USER}>`, // Remetente
-      to: 'lucashenrique6y7y@gmail.com', // Destinatário
-      subject: 'Email Sender', // Assunto
-      text: 'Bem-vindos a qualquer coisa! Lorem ipsum, tamo junto, latim latom.', // Corpo em texto
-      html: '<b>Conteúdo do e-mail em HTML</b>', // Corpo em HTML
+      to: 'lucashenrique6y7y@gmail.com', // Lista de destinatários
+      subject: 'email sender', // Assunto
+      text: 'bem vindos a qualquer coisa lorem pisum tamo junto latim latom ', // Corpo do e-mail em texto simples
+      html: '<b>Conteúdo do e-mail em HTML</b>', // Corpo do e-mail em HTML
     });
 
     console.log('E-mail enviado: %s', info.messageId);
