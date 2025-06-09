@@ -3,7 +3,7 @@ const cheerio = require('cheerio'); // Para manipular e buscar dados no HTML
 
 const url = 'https://quotes.toscrape.com/';
 
-async function fetchData() {
+  async function fetchData() {
     try {
         // Faz a requisição da página
         const response = await fetch(url);
@@ -34,6 +34,12 @@ async function fetchData() {
             }
         });
 
+        return {
+            success: true,
+            url,
+            data:listaFrases
+        };
+
         // Exibe os dados no console
         console.log(listaFrases);
     } catch (error) {
@@ -43,3 +49,6 @@ async function fetchData() {
 
 // Executa a função
 fetchData();
+
+
+module.exports = {fetchData}
